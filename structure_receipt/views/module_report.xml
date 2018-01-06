@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>   
+
+        <template id="module_report">
+
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <t t-foreach="docs" t-as="o">
+
+                        <div class="page">
+
+                            <style>
+
+                                .report-container {
+                                    width: 800px;
+                                    margin-left: 35px;
+                                    margin-top: 35px;
+                                }
+
+                                .contaner {
+                                    width: 100%;
+                                }
+
+                                .box1 {
+
+                                    width: 45%;
+                                    float: left;
+                                }
+
+                                .box2 {
+
+                                    width: 53%;
+                                    float: left;
+                                }
+
+                                .box2 .uan {
+                                    width: 12%;
+                                    float: left; 
+                                }
+
+                                .box2 .num {
+                                    width: 38%;
+                                    float: left; 
+                                }
+
+                                .box2 .receipt {
+                                    width: 51%;
+                                    float: left; 
+                                    margin-top: 75px;
+                                    text-decoration: underline;
+                                }
+
+                                .box3 {
+
+                                    width: 100%;
+                                    float: left;
+                                }
+
+                                .rece{
+
+                                    width: 40%;
+                                    float: left;
+                                }
+
+                                .rece .solid {
+                                    width: 29%;
+                                    float: left;
+                                    font-weight: bold;
+                                }
+
+                                .rece .liquid {
+                                    width: 50%;
+                                    float: left;
+                                    text-align: center;
+                                }
+
+                                .date{
+
+                                    width: 22%;
+                                    float: left;
+                                    margin-left: 288px;
+                                }
+
+                                .date .solid {
+                                    width: 25%;
+                                    float: left;
+                                    font-weight: bold;
+                                }
+
+                                .date .liquid {
+                                    width: 74%;
+                                    float: left;
+                                    text-align: center;
+                                }
+
+                                .box4 {
+                                    width: 100%;
+                                    float: left;
+                                    
+                                }
+
+                                .received{
+
+                                    width: 100%;
+                                    float: left;
+                                    
+                                }
+
+                                .received .solid {
+                                    width: 22%;
+                                    float: left;
+                                    font-weight: bold;
+                                    margin-top: 10px;
+                                }
+
+                                .received .liquid {
+                                    width: 78%;
+                                    float: left;
+                                    text-align: center;
+                                    margin-top: 10px;
+                                }
+
+                                .sum{
+
+                                    width: 70%;
+                                    float: left;
+                                    margin-top: 10px;
+                                }
+
+                                .sum .solid {
+                                    width: 31.5%;
+                                    float: left;
+                                    font-weight: bold;
+                                }
+
+                                .sum .liquid {
+                                    width: 67%;
+                                    float: left;
+                                    text-align: center;
+                                }
+
+                                .dated{
+
+                                    width: 30%;
+                                    float: left;
+                                    margin-top: 10px;
+                                }
+
+                                .dated .solid {
+                                    width: 23.5%;
+                                    float: left;
+                                    font-weight: bold;
+                                }
+
+                                .dated .liquid {
+                                    width: 76%;
+                                    float: left;
+                                    text-align: center;
+                                }
+
+                                .sub{
+
+                                    width: 70%;
+                                    float: left;
+                                    margin-top: 28px;
+                                }
+
+                                .sub .solid {
+                                    width: 35%;
+                                    float: left;
+                                    font-weight: bold;
+                                }
+
+                                .box5 {
+                                    width: 100%;
+                                    float: left;
+                                    margin-top: 30px;
+                                }
+
+                                .sig{
+
+                                    width: 40%;
+                                    float: left;
+                                }
+
+                                .sig .solid {
+                                    width: 29%;
+                                    float: left;
+                                    font-weight: bold;
+                                }
+
+                                .sig .liquid {
+                                    width: 50%;
+                                    float: left;
+                                    text-align: center;
+                                    margin-top: 18px;
+                                }
+
+                                .rs{
+
+                                    width: 22%;
+                                    float: left;
+                                    margin-left: 288px;
+                                }
+
+                                .rs .solid {
+                                    width: 24%;
+                                    float: left;
+                                    font-weight: bold;
+                                }
+
+                                .rs .liquid {
+                                    width: 74%;
+                                    float: left;
+                                    text-align: center;
+                                }
+
+                                .box6 {
+                                    width: 100%;
+                                    float: left;
+                                    margin-top: 10px;
+                                }
+
+                                .stamp{
+
+                                    width: 40%;
+                                    float: left;
+                                }
+
+                                .stamp .solid {
+                                    width: 29%;
+                                    float: left;
+                                    font-weight: bold;
+                                }
+
+                                .stamp .liquid {
+                                    width: 50%;
+                                    float: left;
+                                    text-align: center;
+                                    margin-top: 18px;
+                                }
+
+                                .mem {
+
+                                    width: 34%;
+                                    float: left;
+                                    margin-left: 194px;
+                                }
+
+                                .mem .solid {
+                                    width: 50%;
+                                    float: left;
+                                    font-weight: bold;
+                                }
+
+                                .mem .liquid {
+                                    width: 48%;
+                                    float: left;
+                                    text-align: center;
+                                }
+
+        
+                            </style>
+      
+                            <div class="report-container">
+
+                                <div class="box1">
+
+                                    <img src="/structure_receipt/static/src/img/company.jpeg" alt="" />
+
+                                </div>
+
+                                <div class="box2">
+
+                                    <span class="uan">UAN:</span>
+                                    <span class="num">92 42 111 395 395</span>
+                                    <span class="uan">Tel:</span>
+                                    <span class="num">92 42 357775487-91</span>
+                                    <span class="uan">Fax:</span>
+                                    <span class="num">92 42 3575339</span>
+                                    <span class="uan">Web:</span>
+                                    <span class="num">www.structure.com.pk</span>
+                                    <span class="uan">E-Mail:</span>
+                                    <span class="num">info@structure.com.pk</span>
+                                    <h2 class="receipt">Receipt</h2>
+
+                                </div>
+
+                                <div class="box3">
+                                    <div class="rece">
+                                        <span class="solid">Receipt No.</span>
+                                        <span class="liquid" style="border-bottom: 1px solid">-</span>
+                                    </div>
+
+                                    <div class="date">
+                                        <span class="solid">Date</span>
+                                        <span class="liquid" style="border-bottom: 1px solid" t-esc="o.date"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="box4">
+                                    <div class="received">
+                                        <span class="solid">Received with thanks:</span>
+                                        <span class="liquid" style="border-bottom: 1px solid" t-esc="o.partner_id.name">-</span>
+                                        
+                                    </div>
+
+                                    <div class="received">
+                                        <span class="solid">Sum of rupees:</span>
+                                        <span class="liquid" style="border-bottom: 1px solid">-</span>
+                                        
+                                    </div>
+
+                                    <div class="received">
+                                        <span class="solid">On account of:</span>
+                                        <span class="liquid" style="border-bottom: 1px solid">-</span>
+                                        
+                                    </div>
+
+                                    <div class="sum">
+                                        <span class="solid">By cash/cheque No.</span>
+                                        <span class="liquid" style="border-bottom: 1px solid" t-esc="o.journal_id.name">-</span>
+                                        
+                                    </div>
+
+                                    <div class="dated">
+                                        <span class="solid">Dated:</span>
+                                        <span class="liquid" style="border-bottom: 1px solid">-</span>
+                                        
+                                    </div>
+
+                                    <div class="received">
+                                        <span class="solid">Drawn on:</span>
+                                        <span class="liquid" style="border-bottom: 1px solid">-</span>
+                                        
+                                    </div>
+
+                                    <div class="sub">
+                                        <span class="solid">*Subject to realization</span>
+                                
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="box5">
+
+                                    <div class="sig">
+                                        <span class="solid">Siganture:</span>
+                                        <span class="liquid" style="border-bottom: 1px solid"></span>
+                                    </div>
+
+                                    <div class="rs">
+                                        <span class="solid">Rs:</span>
+                                        <span class="liquid" style="border: 1px solid" t-esc="o.amount"></span>
+                                    </div>
+
+                                    
+                                </div>
+
+                                <div class="box6">
+
+                                    <div class="stamp">
+                                        <span class="solid">Stamp:</span>
+                                        <span class="liquid" style="border-bottom: 1px solid"></span>
+                                    </div>
+
+                                    <div class="mem">
+                                        <span class="solid">Membership No:</span>
+                                        <span class="liquid" style="border: 1px solid" t-esc="mem_no()"></span>
+                                    </div>
+
+                                    
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </t>
+
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+
+</openerp>

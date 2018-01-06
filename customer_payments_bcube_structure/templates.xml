@@ -1,0 +1,264 @@
+<?xml version="1.0"?> 
+<openerp> 
+	<data>
+  
+
+
+<record id="view_form_customer_payments" model="ir.ui.view"> 
+    <field name="name">Customer Payments</field> 
+    <field name="model">customer.payment.bcube</field> 
+    <field name="arch" type="xml"> 
+      <form string="Customer Payments"> 
+        <header> 
+            <button name="journal_entry_with_tax" type="object" 
+                string="Validate" class="oe_highlight"  attrs="{'invisible':[('state','=','post')]}"/> 
+            <button name="cancel_voucher_bcube" type="object"
+                string="Cancel Receipt"  attrs="{'invisible':[('state','=','draft')]}"/> 
+
+          <field name="state" widget="statusbar" statusbar_visible="draft,post"/>
+           
+
+        </header> 
+        <sheet>
+            <group name= "group_top"  >
+                <group  name="group_left">
+                  <field name = "number" readonly = "True"/>
+                    <field name = "partner_id" attrs="{'readonly':[('state','=','post')]}"/>
+                    <field name = "amount" attrs="{'readonly':[('state','=','post')]}" />
+                    <field name = "e_amount"  readonly = "True" invisible="1"/>
+                    <field name = "t_amount" readonly = "True"  invisible="1"/>
+                    <field name = "invoice_link" invisible="1"/>
+                    <field name = "membership_no"/>
+                    <field name = "journal_id" attrs="{'readonly':[('state','=','post')]}" domain="[('type', '=', ['bank','cash'])]"/>
+                    <field name="taxes" widget="many2many_tags" attrs="{'readonly':[('state','=','post')]}" domain="[('with_holding', '=', True)]" invisible="1"/>
+
+                    
+                </group>
+                <group  name="group_right">
+                    <field name="date" attrs="{'readonly':[('state','=','post')]}"/>
+                    <field name="period_id" attrs="{'readonly':[('state','=','post')]}" invisible="1"/> 
+                    <field name="reference"  placeholder="e.g. 003/10" attrs="{'readonly':[('state','=','post')]}"/> 
+                    <field name="name"  placeholder="e.g. invoice SAJ/0042" attrs="{'readonly':[('state','=','post')]}"/>
+                    <field name="journal_entry_id"  readonly = "True"/>   
+                    <field name="receipts" invisible='1'/> 
+                    <field name="branch"/> 
+             <!--        <field name = "firm_partner" attrs="{'readonly':[('state','=','post')]}"/>
+                    <field name = "tagm_entity" attrs="{'readonly':[('state','=','post')]}"/>  -->
+                    
+                </group>
+            </group>
+
+            <notebook invisible="1">
+            <page string="Open Invoices">  
+
+            <field name="customer_tree" attrs="{'readonly':[('state','=','post')]}">
+              <tree editable="bottom">
+                
+                <field name="invoice_id" readonly = "True"/>
+                <field name="date" readonly = "True"/>
+                <field name="due_amount" readonly = "True"/>
+                <field name="reconciled_amount"/>
+                <field name= "reconcile" readonly = "True"/>
+                
+
+              </tree>
+            </field>
+
+             <group class="oe_subtotal_footer oe_right">
+              <field name="total" class="oe_subtotal_footer_separator"/>
+            </group>    
+
+        
+
+            </page>
+            
+              <page string="Tax Deduction">
+              <field name="tax_link" attrs="{'readonly':[('state','=','post')]}">
+              <tree editable="bottom">
+                
+                <field name="name"/>
+                <field name="account_id"/>
+                <field name="amount"/>
+                
+              </tree>
+            </field>
+             <group class="oe_subtotal_footer oe_right">
+              <field name="t_total" class="oe_subtotal_footer_separator"/>
+            </group>   
+  
+              </page>
+
+       </notebook>
+           
+        </sheet>
+      </form> 
+    </field> 
+  </record>
+
+
+          <!-- <record model="ir.sequence.type" id="customer_receipts_sequence_type">
+            <field name="name">Customer Receipts Type</field>
+            <field name="code">customer.payment.bcube</field>
+          </record>
+ -->
+
+          <record model="ir.sequence" id="customer_receipts_sequence">
+            <field name="name">Customer Receipts</field>
+            <field name="code">customer.payment.bcube</field>
+            <field name="prefix">CR</field>
+            <field name="padding">4</field>
+          </record>
+
+          <!-- <record model="ir.sequence.type" id="supplier_payments_sequence_type">
+            <field name="name">Supplier Payments Type</field>
+            <field name="code">supplier.payment.bcube</field>
+          </record> -->
+
+
+          <record model="ir.sequence" id="supplier_payments_sequence">
+            <field name="name">Supplier Payments</field>
+            <field name="code">supplier.payment.bcube</field>
+            <field name="prefix">SP</field>
+            <field name="padding">4</field>
+          </record>
+
+
+
+
+
+          <!-- <record id="customer_receipts_sequence_type" model="ir.sequence.type">
+            <field name="name">Customer Receipts Type</field>
+            <field name="code">customer.payment.bcube</field>
+          </record> -->
+
+<!-- 
+          <record id="customer_receipts_sequence" model="ir.sequence">
+            <field name="name">Customer Receipts</field>
+            <field name="code"> customer.payment.bcube</field>
+            <field name="prefix">CR</field>
+            <field name="padding">4</field>
+          </record>
+ -->
+
+
+
+
+
+
+<record id="account_tax_xpath" model="ir.ui.view"> 
+        <field name="name">account_tax_xpath</field> 
+        <field name="model">account.tax</field> 
+        <field name="inherit_id" ref="account.view_tax_form"/> 
+        <field name="arch" type="xml"> 
+
+           <xpath expr="//field[@name='active']" position="after">
+                       <field name="with_holding"/>
+                       <field name="wh_type"/>
+                   </xpath>
+        </field> 
+    </record>
+
+
+
+
+
+ <record id="main_customer_tree" model="ir.ui.view"> 
+  <field name="name">Customer Payments</field> 
+  <field name="model">customer.payment.bcube</field> 
+  <field name="arch" type="xml"> 
+    <tree > 
+      <field name="partner_id"/> 
+      <field name="journal_id"/>
+      <field name="t_amount"/> 
+    </tree> 
+  </field> 
+</record> 
+
+
+
+
+  <record model="ir.actions.act_window" id="new_action_customer_payments">
+      <field name="name">Customer Payments</field>
+      <field name="res_model">customer.payment.bcube</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain" >[('receipts', '=',True)]</field>
+    <field name="context">{'readonly_by_pass':True,'default_receipts': 1}</field> 
+
+    <!-- <field name="context" eval="{'default_receipts': 1, 'readonly_by_pass':True}"/>  -->
+  </record>
+
+
+  <record model="ir.actions.act_window" id="new_action_supplier_payments">
+      <field name="name">Supplier Payments</field>
+      <field name="res_model">customer.payment.bcube</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain" >[('receipts', '=',False)]</field>
+    <field name="context">{'readonly_by_pass':True,'default_receipts': 0}</field> 
+    <!-- <field name="context" eval="{'default_receipts': 0, 'readonly_by_pass':True}"/>  -->
+  </record>
+
+
+
+     <!-- <menuitem id="sub_menu_customer_payments" 
+     name="Customer Payments" 
+     action="new_action_customer_payments" 
+     parent="reg_form.reg_form_invoice"
+     sequence="2"/>  -->
+
+
+    <menuitem id="sub_menu_supplier_payments" 
+     name="Payments" 
+     action="new_action_supplier_payments" 
+     parent="account.menu_finance_payables"/> 
+
+
+
+
+<!-- ********************************************************************************************************** -->
+<!-- ################################  View For account.bank.statement Start ###################################-->
+<!-- ********************************************************************************************************** -->
+
+    <!-- <record id="bcube_view_bank_statement_form" model="ir.ui.view">
+      <field name="name">bcube_view_bank_statement_form</field>
+      <field name="model">account.bank.statement</field> 
+      <field name="inherit_id" ref="account.view_bank_statement_form2"/> 
+      <field name="arch" type="xml"> 
+        <xpath expr="//page[@string='Journal Entries']" position="after">
+            <page string="Receipts and Payments">
+              <group name="group_top">
+                <group name="group_left"> -->
+                  <!-- Left Side Fields Will Place Here -->
+                <!--   <field name="bcube_pid"/>
+                </group>
+                <group name="group_right"> -->
+                  <!-- Right Side Fields Will Place Here -->
+               <!--  </group>
+              </group> 
+                <field name="randp_ids" nolabel='1'>
+                        <tree editable="bottom">
+                            <field name="date"/>
+                            <field name="communication"/>
+                            <field name="partner_id"/>
+                            <field name="reference"/>
+                            <field name="amount" sum="Total"/>
+                        </tree>
+                </field>
+            </page>
+        </xpath>
+
+        <xpath expr="//field[@name='balance_end']" position="after">
+          <field name="receipts_amount"/>
+        </xpath>
+
+      </field> 
+    </record> -->
+
+<!-- ********************************************************************************************************** -->
+<!-- ################################  View For account.bank.statement End #####################################-->
+<!-- ********************************************************************************************************** -->
+</data>
+
+
+</openerp> 

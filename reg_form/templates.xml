@@ -1,0 +1,2113 @@
+<openerp>
+    <data>
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%customer_form_naseem_bcube%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+            <!--========================[Form View-START]=====================-->
+
+                <!-- <template id="report_header_custom" inherit_id="report.external_layout_header">
+                    <xpath expr="//div[@class='header']" position="replace">
+                        <div class ="header">
+                            <p> </p>
+                        </div>
+                    </xpath>
+                </template> -->
+ 
+                <record id="reg_form_form_view" model="ir.ui.view">
+                    <field name="name">reg_form_form_view</field>
+                    <field name="model">reg.form</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="Registration Form">
+
+                            <header>
+
+                                <button name="create_member" type="object" string="Create Member" class="oe_highlight" attrs="{'invisible':[('result','=',False)]}"/>
+
+                                <button name="cancel" type="object" string="Cancel" class="oe_highlight" attrs="{'invisible':[('new_join','=',False)]}"/>
+
+                                <button name="app_form" type="object" string="Registration Form" class="oe_highlight" attrs="{'invisible':[('stages','not in','leads')]}"/>
+
+                                <button name="non_member" type="object" string="Non Active Member" class="oe_highlight" attrs="{'invisible':[('stages','not in','member')]}"/>
+
+                                <button name="create_invoice" type="object" string="Create Invoice" class="oe_highlight" attrs="{'invisible':[('new_join','=', False)]}"/>
+
+                                <field name="stages" widget="statusbar" statusbar_visible="leads,app_form,member,non_member,cancel"/>
+
+                            </header>
+                            
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="seq_id"/>
+                                    </group>
+                                    <group>
+
+                                        <field name="branch"/>
+                                        <field name="member_photo" widget='image'/>
+
+                                    </group>
+                                </group>
+                                <group string="REGISTRATION FORM" attrs="{'invisible':[('stages','in','leads')]}">
+                                    <group>
+                                        
+                                        <field name="memship_no"  attrs="{'readonly':[('stages','in',['non_member','member'])],'invisible':[('show_mem','=',False)],'required':[('show_mem','=',True)]}"/>
+                                        <field name="package" options="{'no_create':True}" attrs="{'required':[('stages','not in','leads')],'invisible':[('stages','in','leads')],'readonly':['|',('result','=',True),('stages','in',['member','non_member'])]}"/>
+                                        <field name="service" options="{'no_create':True}" widget="many2many_tags" attrs="{'required':[('stages','not in','leads')],'invisible':[('stages','in','leads')],'readonly':['|',('result','=',True),('stages','in',['member','non_member'])]}"/>
+                                        <field name="package_charge" attrs="{'invisible':[('stages','in','leads')]}"/>
+                                        <field name="avg_per_month" attrs="{'invisible':[('stages','in','leads')]}"/>
+                                        <!-- <field name="rejoining"/> -->
+                                        <field name="expire_date" invisible="1"/>
+                                        <field name="last_date" invisible="1"/>
+                                        <!-- <field name="ref_no"/> -->
+                                        <field name="payment_terms" options="{'no_create':True}" attrs="{'required':[('stages','not in','leads')],'invisible':[('stages','in','leads')],'readonly':['|',('result','=',True),('stages','in',['member','non_member'])]}"/>
+                                        
+                                    </group>
+                                    <group>
+                                        
+                                        <field name="status" invisible="1"/>
+                                        <field name="show_mem" invisible="1"/>
+                                        <field name="result" invisible="1"/>
+                                        <field name="rec_new_name" invisible="1"/>
+                                        <field name="due_amt" invisible="1"/>
+                                        <field name="curent_date" invisible="1"/>
+                                        <!-- <field name="req_date" invisible="1"/> -->
+                                        <field name="new_join" invisible="1"/>
+                                        <!-- <field name="assesment"/> -->
+                                        <field name="joining" attrs="{'invisible':[('stages','in','leads')],'readonly':['|',('result','=',True),('stages','in',['member','non_member'])]}"/>
+                                        <field name="rejoining" attrs="{'invisible':[('stages','in',['leads','app_form'])],'readonly':[('stages','in',['non_member','member'])]}"/>
+                                        <!-- <field name="invoiced_date" attrs="{'invisible':[('stages','in','leads')],'readonly':[('stages','in',['non_member','member'])]}"/> -->
+                                        <field name="total" attrs="{'invisible':[('stages','in','leads')]}"/>
+                                        <field name="discount_type" attrs="{'invisible':[('stages','in','leads')],'readonly':['|',('result','=',True),('stages','in',['member','non_member'])]}"/>
+                                        <field name="discount" attrs="{'invisible': [('discount_type','not in',('amt','per'))],'readonly':[('stages','in',['non_member','member'])]}"/>
+                                        <field name="discount_amt" attrs="{'invisible':[('stages','in','leads')]}"/>
+                                        <field name="advance" invisible="1"/>
+                                        <field name="balance" invisible="1"/>
+                                        <field name="train" attrs="{'invisible':[('stages','in','leads')],'readonly':['|',('result','=',True),('stages','in',['member','non_member'])]}"/>
+                                        <field name="trainer" attrs="{'invisible':[('train','=',False)],'readonly':[('result','=',True)]}"/>
+                                        <field name="current_trainer" attrs="{'invisible':[('trainer','!=','trainer')]}" domain="[('trainer','=',True)]"/>
+                                        <field name="invoice_link" ttrs="{'invisible':[('stages','not in','member')]}"/>
+                                    </group>
+                                </group>
+
+                                <group string="PERSONAL INFORMATION">
+                                    <group>
+                                        <field name="name" attrs="{'readonly':['|',('result','=',True),('stages','in',['member','non_member'])]}"/>
+                                        <field name="dob" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="gender" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="cnic" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="home_addres" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="tel_home" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="mob" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        
+                                    </group>
+                                    <group>
+                                        <field name="member_link" readonly="1"/>
+                                        <field name="profession" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="organization" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="job_title" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="office_addres" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="ntn" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="tel_office" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="email" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                    </group>
+                                </group>
+
+                                <group string="WHAT IS THE CONVENIENT TIME FOR YOU TO VISIT STRUCTURE GYM ?" attrs="{'invisible': [('stages','in', 'leads')]}">
+                                    <group>
+
+                                        <field name="morning" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="time_slot_m" attrs="{'invisible': [('morning','=', False)],'required': [('morning','=', True)]}" domain="[('time_slot','=','morning')]"/>
+                                        <field name="afternoon" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="time_slot_af" attrs="{'invisible': [('afternoon','=', False)],'required': [('afternoon','=', True)]}" domain="[('time_slot','=','afternoon')]"/>
+                                        
+                                    </group>
+                                    <group>
+
+                                        <field name="noon" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="time_slot_n" attrs="{'invisible': [('noon','=', False)],'required': [('noon','=', True)]}" domain="[('time_slot','=','noon')]"/>
+                                        <field name="evening" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="time_slot_e" attrs="{'invisible': [('evening','=', False)],'required': [('evening','=', True)]}" domain="[('time_slot','=','evening')]"/>
+                                 
+                                    </group>
+                                </group>
+
+                                <group string="HOW WOULD YOU LIKE TO BE UPDATED ?">
+                                    <group>
+
+                                        <field name="sms" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        
+                                    </group>
+                                    <group>
+                                        <field name="bol_email" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                    </group>
+                                </group>
+
+                                <group>
+                                    <group string="EMERGENCY CONTACT 1">
+
+                                        <field name="emg_name" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="emg_addres" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="emg_contact" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        
+                                    </group>
+                                    <group string="EMERGENCY CONTACT 2">
+
+                                        <field name="emg_name_1" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="emg_addres_1" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="emg_contact_1" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                 
+                                    </group>
+                                </group>
+
+
+                                <group string="REFERENCES">
+                                    <group>
+
+                                        <field name="ref_name" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="ref_contact" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="ref_addres" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="ref_realtion" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        
+                                    </group>
+                                    <group>
+
+                                        <field name="ref_name_1" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="ref_contact_1" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="ref_addres_1" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="ref_realtion_1" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                 
+                                    </group>
+
+                                </group>
+
+                                <group string="HEALTH ASSESSMENT">
+                                    <group>
+
+                                        <field name="bmi" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                        <field name="weight" attrs="{'readonly':[('stages','in','non_member')]}"/>
+
+                                        
+                                    </group>
+                                    <group>
+
+                                        <field name="fat" attrs="{'readonly':[('stages','in','non_member')]}"/>
+                                 
+                                    </group>
+                                    
+                                </group>
+                            </sheet>
+                            <div class="oe_chatter">
+                                <field name="message_follower_ids" widget="mail_followers"/>
+                                <field name="message_ids" widget="mail_thread"/>
+                            </div>
+                        </form>
+                    </field>
+                </record>
+
+                <record id="ufc_sequence" model="ir.sequence">
+                    <field name="name">struct_sequence</field>
+                    <field name="code">mem.seq</field>
+                    <field name="prefix">S-</field>
+                    <field name="padding">4</field>
+             
+                </record>
+            <!--************************[Form View-ENDS]**********************-->
+             <!--========================[Search View-START]===================-->
+                <record id="view_tree_reg_form" model="ir.ui.view"> 
+                    <field name="name">view_tree_reg_form</field> 
+                    <field name="model">reg.form</field> 
+                    <field name="type">tree</field> 
+                    <field name="arch" type="xml"> 
+                        <tree> 
+                 
+                            <field name="name"/>
+                            <field name="memship_no"/>
+                            <field name="package"/>
+                            <field name="joining"/>
+                            <field name="package_charge"/>
+                            <field name="avg_per_month"/>
+                            <field name="branch"/>
+     
+                        </tree> 
+                    </field> 
+            
+                </record>
+
+                <!-- <record id="member_seq" model="ir.sequence">
+                  <field name="name">member_seq</field>
+                  <field name="code">mem.seq</field>
+                  <field name="prefix">SHF</field>
+                  <field name="padding">4</field>
+                </record> -->
+
+                <record id="customer_invoice_form_view"   model="ir.ui.view"> 
+                    <field name="name">customer_invoice_form_view</field> 
+                    <field name="model">account.invoice</field> 
+                    <field name="inherit_id" ref="account.invoice_form"/> 
+                    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='partner_id']" position="attributes">
+                            <attribute name="string">Member</attribute>
+                        </xpath>
+                        <xpath expr="//field[@name='payment_term_id']" position="after">
+                          <field name="branch" />
+                          <field name="check" invisible="1"/>
+                          <field name="member" invisible="1"/>
+                          <field name="rejoin" invisible="1"/>
+                        </xpath>
+                        <xpath expr="//field[@name='user_id']" position="after">
+                            <field name="due_date"/>
+                        </xpath>
+
+                        <xpath expr="//field[@name='amount_total']" position="after">
+                            <field name="due_amt" class="oe_subtotal_footer_separator" attrs="{'invisible':[('state','not in','open')]}"/>
+                        </xpath>
+
+                       <xpath expr="//field[@name='outstanding_credits_debits_widget']" position="attributes">
+                            <attribute name="attrs">{'invisible': 1}</attribute>
+
+                        </xpath> 
+
+                        <xpath expr="//field[@name='residual']" position="attributes">
+                            <attribute name="attrs">{'invisible': 1}</attribute>
+
+                        </xpath>
+
+                        <xpath expr="//field[@name='due_date']" position="attributes">
+                            <attribute name="attrs">{'readonly':[('stages','in','new')]}</attribute>
+
+                        </xpath>
+
+                        <xpath expr="//field[@name='team_id']" position="attributes">
+                            <attribute name="attrs">{'readonly':[('stages','in','new')]}</attribute>
+
+                        </xpath>
+
+                        <xpath expr="//field[@name='state']" position="attributes">
+                            <attribute name="attrs">{'invisible': 1}</attribute>
+
+                        </xpath>
+
+                        <xpath expr="//field[@name='team_id']" position="attributes">
+                            <attribute name="attrs">{'invisible': 1}</attribute>
+
+                        </xpath>
+
+                        <xpath expr="//field[@name='user_id']" position="attributes">
+                            <attribute name="attrs">{'invisible': 1}</attribute>
+
+                        </xpath>
+
+                        <xpath expr="//field[@name='state']" position="after">
+
+                            <field name="stages" widget="statusbar" statusbar_visible="draft,open,new"/>      
+
+                        </xpath>
+
+                        <xpath expr="//field[@name='partner_id']" position="after">
+                            <field name="customer_name" attrs="{'invisible':[('check','=',False)]}"/>
+                        </xpath>
+                        <xpath expr="//div[@class='alert alert-info']" position="replace">
+
+                        </xpath>
+
+
+
+                        <xpath expr="//field[@name='partner_id']" position="before">
+                            <field name="membership_no"/>
+                        </xpath>
+                        <!-- <xpath expr="//field[@name='amount_total']" position="after">
+                            <field name="discount_amt"/>
+                        </xpath> -->
+                        
+                        <xpath expr="//button[@name='137']" position="replace">
+                            <button name="reg_pay" type="object" string="Register Payment" class="oe_highlight" attrs="{'invisible':[('stages','not in','open')]}"/>
+                        </xpath>
+
+                        <xpath expr="//button[@name='action_invoice_sent']" position="attributes">
+                           <attribute name="attrs">{'invisible': 1}</attribute>
+                        </xpath>
+
+                        <xpath expr="//button[@name='invoice_print']" position="attributes">
+                           <attribute name="attrs">{'invisible': 1}</attribute>
+                        </xpath>
+
+                        <xpath expr="//button[@name='action_invoice_cancel']" position="replace">
+                           
+                        </xpath>
+
+                        <xpath expr="//button[@name='200']" position="replace">
+                           
+                        </xpath>
+
+
+
+                        <xpath expr="//page[2]" position="after">
+
+                            <page string="Payments">
+
+                                <field name="customer_payment_id_1" nolabel='1'>
+                                    <tree editable="bottom">
+                                        
+                                        <field name="date"/>
+                                        <field name="amount"/>
+                                        <field name="journal_id"/>
+                                        <field name="journal_entry_id"/>
+                                        <field name="state"/>
+                                        <field name="invoice_link" invisible="1"/>
+
+                                    </tree>
+                                </field> 
+
+                            </page>
+
+
+                        </xpath>
+                        
+                    </field>
+                </record>
+             
+            <!--************************[Search View-ENDS]********************-->
+
+            <!--========================[Action-START]========================-->
+                <record model="ir.actions.act_window" id="action_reg_form">
+                    <field name="name">Registration Form</field>
+                    <field name="res_model">reg.form</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[('stages', '=', 'app_form')]</field>
+                    <field name="context">{'readonly_by_pass': True}</field>
+                </record>
+
+                <record model="ir.actions.act_window" id="action_reg_form_member">
+                    <field name="name">Member</field>
+                    <field name="res_model">reg.form</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[('stages', '=', 'member')]</field>
+                    <field name="context">{'readonly_by_pass': True}</field>
+                </record>
+
+                <record model="ir.actions.act_window" id="action_reg_form_leads">
+                    <field name="name">Leads</field>
+                    <field name="res_model">reg.form</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[('stages','=','leads')]</field>
+                    <field name="context">{'readonly_by_pass': True}</field>
+                </record>
+
+                <record model="ir.actions.act_window" id="action_reg_form_non_active">
+                    <field name="name">Non Active Member</field>
+                    <field name="res_model">reg.form</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[('stages', '=', 'non_member')]</field>
+                    <field name="context">{'readonly_by_pass': True}</field>
+                </record>
+
+                <record model="ir.actions.act_window" id="reprt_non_active">
+                    <field name="name">Non Active Member</field>
+                    <field name="res_model">reg.form</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[('stages', '=', 'non_member')]</field>
+                    <field name="context">{'readonly_by_pass': True}</field>
+                </record>
+
+                <record model="ir.actions.act_window" id="reprt_new_join">
+                    <field name="name">Member</field>
+                    <field name="res_model">reg.form</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                    <field name="domain">[('stages', '=', 'member')]</field>
+                    <field name="context">{'readonly_by_pass': True}</field>
+                </record>
+            <!--************************[Action-ENDS]*************************-->
+
+            <!--========================[Menu-START]==========================-->
+                <menuitem name="GYM MANAGMENT" id="reg_form_parent"/>
+                <menuitem name="POINT OF SALE" id="reg_point_of_sale"/>
+
+                <menuitem name="Point of Sale" id="reg_sale_point" parent="reg_point_of_sale" sequence="1"/>
+
+                <menuitem name="Membership" id="reg_form_heading" parent="reg_form_parent" sequence="1"/>
+
+                <menuitem name="Invoicing" id="reg_form_invoice" parent="reg_form_parent" sequence="2"/>
+
+                <menuitem name="Training" id="reg_form_train" parent="reg_form_parent" sequence="3"/>
+
+                <menuitem name="Massage" id="reg_form_massage" parent="reg_form_parent" sequence="4"/>
+
+                <menuitem name="Visitors" id="reg_form_visitor" parent="reg_form_parent" sequence="5"/>
+
+                <menuitem name="Attendances" id="reg_form_attend" parent="reg_form_parent" sequence="6"/>
+
+                <menuitem name="Rejoining/Changing" id="reg_form_rejoin" parent="reg_form_parent" sequence="7"/>
+
+                <menuitem name="Reporting" id="reg_form_reporting" parent="reg_form_parent" sequence="8"/>
+
+                <menuitem name="Configration" id="reg_form_config" parent="reg_form_parent" sequence="9"/>
+
+                <menuitem name="Registration Form" id="reg_form_child" parent="reg_form_heading" action="action_reg_form" sequence="2"/>
+
+                <menuitem name="Members" id="reg_form_child_member" parent="reg_form_heading" action="action_reg_form_member" sequence="3"/>
+
+                <menuitem name="Leads" id="reg_form_child_leads" parent="reg_form_heading" action="action_reg_form_leads" sequence="1"/>
+
+                <menuitem name="Non Active Member" id="reg_form_child_non_active" parent="reg_form_heading" action="action_reg_form_non_active" sequence="4"/>
+
+                <menuitem name="Dis Continue" id="report_child_non_active" parent="reg_form_reporting" action="reprt_non_active" sequence="4"/>
+
+                <menuitem name="New Joining" id="report_child_new_join" parent="reg_form_reporting" action="reprt_new_join" sequence="1"/>
+
+            <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+                
+
+            <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+                <record id="struct_train_form_view" model="ir.ui.view">
+                    <field name="name">struct_train_form_view</field>
+                    <field name="model">struct.training</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="Training">
+                            <sheet>
+                                <group>
+                                    <group>
+
+                                        <field name="customer"/>
+                                        <field name="start_date"/>
+                                        
+                                    </group>
+                                    <group>
+                                        
+                                        <field name="training"/>
+                                        <field name="end_date"/>
+                                        <field name="trainer" domain="[('trainer','=',True)]"/>
+                                        
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </record>
+
+
+                <record model="ir.actions.act_window" id="action_training">
+                    <field name="name">TRAINING</field>
+                    <field name="res_model">struct.training</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+
+
+                <menuitem name="Training" id="reg_training" parent="reg_form_train" action="action_training" sequence="1"/>
+
+
+                <record id="view_tree_training" model="ir.ui.view"> 
+                    <field name="name">view_tree_training</field> 
+                    <field name="model">struct.training</field> 
+                    <field name="type">tree</field> 
+                    <field name="arch" type="xml"> 
+                        <tree> 
+                 
+                            <field name="customer"/>
+                            <field name="training"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+     
+                        </tree> 
+                    </field> 
+                
+                </record>
+
+            <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+                <!-- <record id="account_reg_form_view"   model="ir.ui.view"> 
+                    <field name="name">account_reg_form_view</field> 
+                    <field name="model">account.invoice</field> 
+                    <field name="inherit_id" ref="account.invoice_form"/> 
+                    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='payment_term_id']" position="after">
+                          <field name="branch" />
+                          <field name="status" />
+                        </xpath>
+
+                    </field> 
+                </record> -->
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+                <!-- <record id="move_form_view"   model="ir.ui.view"> 
+                    <field name="name">move_form_view</field> 
+                    <field name="model">account.move</field> 
+                    <field name="inherit_id" ref="account.view_move_form"/> 
+                    <field name="arch" type="xml">
+
+                        <xpath expr="//field[@name='ref']" position="after">
+                          <field name="branch" />
+                        </xpath>
+
+                    </field> 
+                </record> -->
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+                <!-- <record id="customer_sale_action" model="ir.actions.act_window">
+                    <field name="name">Customers</field>
+                    <field name="type">ir.actions.act_window</field>
+                    <field name="res_model">res.partner</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,kanban,form</field>
+                    <field name="domain" >[('customer', '=',True)]</field>
+                    <field name="context" eval="{'default_customer':1}"/> -->
+                    <!-- <field name="search_view_id" ref="view_res_partner_filter"/>
+                    <field name="help" type="html">
+                      <p class="oe_view_nocontent_create">
+                        Click to add a contact in your address book.
+                      </p><p>
+                        Odoo helps you easily track all activities related to
+                        a customer: discussions, history of business opportunities,
+                        documents, etc.
+                      </p>
+                    </field>
+                </record>
+
+                <menuitem id="new_menu_partner" name="Members" parent="reg_form_heading" action="customer_sale_action" sequence="3"/> -->
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+                <record id="schedule_form_view" model="ir.ui.view">
+                    <field name="name">schedule_form_view</field>
+                    <field name="model">training.schedule</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="TRAINING SCHEDULE">
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="name"/>
+                                    </group>
+
+                                    <group>
+                                        <field name="responsible"/>
+                                    </group>
+                                </group>
+
+                                <field name="tree_id" nolabel='1'>
+                                    <tree editable="bottom">                                   
+                                        <field name="time"/>
+                                        <field name="activity"/>
+                                        <field name="desc"/>
+                                        <field name="status"/>
+
+                                    </tree>
+                                </field>
+
+                            </sheet>
+                        </form>
+                    </field>
+                </record>
+
+
+                <record model="ir.actions.act_window" id="action_schedule">
+                    <field name="name">TRAINING SCHEDULE</field>
+                    <field name="res_model">training.schedule</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+
+                <menuitem name="Training Schedule" id="reg_schedule" parent="reg_form_train" action="action_schedule" sequence="2"/>
+
+                <record id="view_tree_schedule" model="ir.ui.view"> 
+                    <field name="name">view_tree_schedule</field> 
+                    <field name="model">training.schedule</field> 
+                    <field name="type">tree</field> 
+                    <field name="arch" type="xml"> 
+                        <tree> 
+                 
+                            <field name="name"/>
+                            <field name="responsible"/>
+
+                        </tree> 
+                    </field> 
+                
+                </record>
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+                <record id="status_form_view" model="ir.ui.view">
+                    <field name="name">status_form_view</field>
+                    <field name="model">training.status</field>
+                    <field name="type">form</field>
+                    <field name="arch" type="xml">
+                        <form string="TRAINING STATUS">
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="date"/>
+                                    </group>
+
+                                    <group>
+                                        <field name="trainer" domain="[('trainer','=',True)]"/>
+                                    </group>
+                                </group>
+
+                                <field name="status_id" nolabel='1'>
+                                    <tree editable="bottom">                                   
+                                        <field name="member_no"/>
+                                        <field name="member"/>
+                                        <field name="types"/>
+                                        <field name="start_time"/>
+                                        <field name="end_time"/>
+                                        <field name="assesment"/>
+                                        <field name="diet_plan"/>
+
+                                    </tree>
+                                </field>
+
+                            </sheet>
+                        </form>
+                    </field>
+                </record>
+
+
+                <record model="ir.actions.act_window" id="action_status">
+                    <field name="name">TRAINING STATUS</field>
+                    <field name="res_model">training.status</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                </record>
+
+                <menuitem name="Training Status" id="reg_status" parent="reg_form_train" action="action_status" sequence="3"/>
+
+                <record id="view_tree_status" model="ir.ui.view"> 
+                    <field name="name">view_tree_status</field> 
+                    <field name="model">training.status</field> 
+                    <field name="type">tree</field> 
+                    <field name="arch" type="xml"> 
+                        <tree> 
+                 
+                            <field name="date"/>
+                            <field name="trainer"/>
+
+                        </tree> 
+                    </field> 
+                
+                </record>
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+
+            <record id="appoint_form_view" model="ir.ui.view">
+                <field name="name">appoint_form_view</field>
+                <field name="model">struct.appointment</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Appointment">
+                        <header>
+
+                            <button name="create_invoice" type="object" string="Create Invoice" class="oe_highlight" attrs="{'invisible':[('stages','not in','avail')]}"/>
+
+                            <button name="booked" type="object" string="Booked" class="oe_highlight" attrs="{'invisible':[('stages','not in','draft')]}"/>
+
+                            <button name="cancel" type="object" string="Cancel" class="oe_highlight" attrs="{'invisible':[('stages','not in','booked')]}"/>
+
+                            <button name="avail" type="object" string="Availed" class="oe_highlight" attrs="{'invisible':[('stages','not in','booked')]}"/>
+
+                            <field name="stages" widget="statusbar" statusbar_visible="draft,booked,avail,cancel"/>
+
+                        </header>
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name" attrs="{'invisible':[('types','=','member')],'readonly':[('stages','in',['booked','avail'])]}"/>
+                                    <field name="mem_name" attrs="{'invisible':[('types','!=','member')],'readonly':[('stages','in',['booked','avail'])]}"/>
+                                    <field name="walkin_name" attrs="{'invisible':[('types','!=','walkin')],'readonly':[('stages','in',['booked','avail'])]}" domain="[('walkin','=',True)]"/>
+                                    <field name="types" attrs="{'readonly':[('stages','in',['booked','avail'])]}"/>
+                                    <field name="member_no" attrs="{'invisible':[('types','!=','member')],'readonly':[('stages','in',['booked','avail'])]}" domain="[('stages','=','member')]"/>
+                                    <field name="mamsus_name" domain="[('massus','=',True)]" attrs="{'readonly':[('stages','in',['booked','avail'])]}"/>
+                                </group>
+
+                                <group>
+                                    <field name="branch"/>
+                                    <field name="date" attrs="{'readonly':[('stages','in',['booked','avail'])]}"/>
+                                    <field name="time" attrs="{'readonly':[('stages','in',['booked','avail'])]}"/>
+                                    <field name="contact" attrs="{'readonly':[('stages','in',['booked','avail'])]}"/>
+                                    <!-- <field name="book_status"/> -->
+                                    <field name="invoice_link" invisible="1"/>
+                                </group>
+                                
+                            </group>
+                            <notebook>
+                                <page string=" ">
+                                    <field name="appoint_id" nolabel='1' attrs="{'readonly':[('stages','in',['booked','avail'])]}">
+                                        <tree editable="bottom">                                   
+                                            <field name="types"/>
+                                            <field name="duration" widget="float_time" sum="total"/>
+                                            <field name="rates" sum="total"/>
+                                            <field name="subtotal" sum="total"/>
+
+                                        </tree>
+                                    </field>
+
+                                    <group class="oe_subtotal_footer oe_right">
+                                        <!-- <field name="discount_type"/> -->
+                                        <!-- <field name="discount"/> -->
+                                        <field name="total" class="oe_subtotal_footer_separator"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_appoint">
+                <field name="name">Appointment</field>
+                <field name="res_model">struct.appointment</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="context">{'readonly_by_pass': True}</field>
+            </record>
+
+
+            <menuitem name="Appointment" id="reg_appoint" parent="reg_form_massage" action="action_appoint" sequence="1"/>
+
+            <record id="view_tree_appoint" model="ir.ui.view"> 
+                <field name="name">view_tree_appoint</field> 
+                <field name="model">struct.appointment</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+                        <field name="date"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="visitor_form_view" model="ir.ui.view">
+                <field name="name">visitor_form_view</field>
+                <field name="model">struct.visitor</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Visitors">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="date"/>
+                                    <field name="curent_date"/>
+                                    <!-- <field name="plan"/> -->
+                                    <!-- <field name="attend_by"/> -->
+                                    <field name="ref" domain="[('stages','=','member')]"/>
+                                    <field name="contact"/>
+                                    <field name="interest_lvl"/>
+                                    <!-- <field name="approve"/> -->
+                                    <field name="remarks_on_call"/>
+                        
+                                </group>
+
+                                <group>
+                                    <field name="name"/>
+                                    <field name="time"/>
+                                    <field name="cmp_name"/>
+                                    <field name="designation"/>
+                                    <field name="profile_lvl"/>
+                                    <field name="remarks"/>
+                                    <!-- <field name="curent_date"/> -->
+                                    <!-- <field name="req_date"/> -->
+
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_visit">
+                <field name="name">Visitor</field>
+                <field name="res_model">struct.visitor</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Visitors" id="reg_visit" parent="reg_form_visitor" action="action_visit" sequence="1"/>
+
+            <record id="view_tree_visit" model="ir.ui.view"> 
+                <field name="name">view_tree_visit</field> 
+                <field name="model">struct.visitor</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+                        <field name="ref"/>
+                        <field name="time"/>
+                        <field name="contact"/>
+                        <field name="curent_date"/>
+                        <field name="plan"/>
+                        <field name="interest_lvl"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+           <!--  <record id="visitor_daily_form_view" model="ir.ui.view">
+                <field name="name">visitor_daily_form_view</field>
+                <field name="model">struct.visitor.daily</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Daily Vistors Report">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record> -->
+
+            <record model="ir.actions.act_window" id="action_visit_daily">
+                <field name="name">Daily Vistors Report</field>
+                <field name="res_model">struct.visitor</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Daily Vistors Report" id="reg_visit_daily" parent="reg_form_visitor" action="action_visit_daily" sequence="2"/>
+<!-- 
+            <record id="view_tree_visit_daily" model="ir.ui.view"> 
+                <field name="name">view_tree_visit_daily</field> 
+                <field name="model">struct.visitor.daily</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record> -->
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <!-- <record id="visitor_monthly_form_view" model="ir.ui.view">
+                <field name="name">visitor_monthly_form_view</field>
+                <field name="model">struct.visitor.monthly</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Monthly Vistors Report">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+ -->
+            <record model="ir.actions.act_window" id="action_visit_monthly">
+                <field name="name">Monthly Vistors Report</field>
+                <field name="res_model">struct.visitor</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+            
+            <menuitem name="Monthly Vistors Report" id="reg_visit_monthly" parent="reg_form_visitor" action="action_visit_monthly" sequence="3"/>
+
+            <!-- <record id="view_tree_visit_monthly" model="ir.ui.view"> 
+                <field name="name">view_tree_visit_monthly</field> 
+                <field name="model">struct.visitor.monthly</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record> -->
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="attend_form_view" model="ir.ui.view">
+                <field name="name">attend_form_view</field>
+                <field name="model">struct.attend</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Attendances">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_attend">
+                <field name="name">Attendances</field>
+                <field name="res_model">struct.attend</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Attendances" id="reg_attend" parent="reg_form_attend" action="action_attend" sequence="1"/>
+
+            <record id="view_tree_attend" model="ir.ui.view"> 
+                <field name="name">view_tree_attend</field> 
+                <field name="model">struct.attend</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="attend_report_form_view" model="ir.ui.view">
+                <field name="name">attend_report_form_view</field>
+                <field name="model">struct.attend.report</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Attendance Report">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_attend_report">
+                <field name="name">Attendance Report</field>
+                <field name="res_model">struct.attend.report</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Attendance Report" id="reg_attend_report" parent="reg_form_attend" action="action_attend_report" sequence="2"/>
+
+            <record id="view_tree_attend" model="ir.ui.view"> 
+                <field name="name">view_tree_attend</field> 
+                <field name="model">struct.attend.report</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+           <!--  <record id="joining_form_view" model="ir.ui.view">
+                <field name="name">joining_form_view</field>
+                <field name="model">struct.joining</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="New Joining">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_joining">
+                <field name="name">New Joining</field>
+                <field name="res_model">struct.joining</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="New Joining" id="reg_joining" parent="reg_form_reporting" action="action_joining" sequence="1"/>
+
+            <record id="view_tree_joining" model="ir.ui.view"> 
+                <field name="name">view_tree_joining</field> 
+                <field name="model">struct.joining</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record> -->
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="rejoining_form_view" model="ir.ui.view">
+                <field name="name">rejoining_form_view</field>
+                <field name="model">struct.rejoining</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="New Joining">
+                        <header>
+
+                            <button name="create_invoice" type="object" string="Create Invoice" class="oe_highlight" attrs="{'invisible':[('stages','in',['invoiced','validate'])]}"/>
+
+                            <button name="validate" type="object" string="Validate" class="oe_highlight" attrs="{'invisible':[('result','=',False)]}"/>
+
+                            <button name="cancel" type="object" string="Cancel" class="oe_highlight" attrs="{'invisible':[('stages','not in','invoiced')]}"/>
+
+                            <field name="stages" widget="statusbar" statusbar_visible="draft,invoiced,cancel,validate"/>
+
+                        </header>
+
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="date"/>
+                                    <field name="membership_no" attrs="{'invisible':[('change','=',True)],'required':[('change','=',False)]}" domain="[('stages','=','non_member')]"/>
+                                    <field name="membership_no_ch" attrs="{'invisible':[('change','=',False)],'required':[('change','=',True)]}" domain="[('stages','=','member')]"/>
+                                    <field name="member"/>
+                                    <!-- <field name="advance"/> -->
+                                    <field name="package"/>
+                                    <field name="change_package"/>
+                                    <field name="service"/>
+                                    <field name="new_service" widget="many2many_tags"/>
+                                    <field name="invoice_link" invisible="1"/>
+                                </group>
+
+                                <group>
+                                    <field name="branch"/>
+                                    <field name="show_mem" invisible="1"/>
+                                    <field name="result" invisible="1"/>
+                                    <!-- <field name="rejoining" attrs="{'invisible':[('change','=',True)]}"/> -->
+                                    <!-- <field name="change_pack_date" attrs="{'invisible':[('change','=',False)]}"/> -->
+                                    <field name="total"/>
+                                    <field name="discount_type"/>
+                                    <field name="discount"/>
+                                    <field name="discount_amt"/>
+                                    <field name="payment_terms"/>
+                                    <field name="change" invisible="1"/>
+                                </group>
+                            </group>
+
+                            <group string="WHAT IS THE CONVENIENT TIME FOR YOU TO VISIT STRUCTURE GYM ?">
+                                    <group>
+
+                                        <field name="morning"/>
+                                        <field name="time_slot_m" attrs="{'invisible': [('morning','=', False)],'required': [('morning','=', True)]}" domain="[('time_slot','=','morning')]"/>
+                                        <field name="afternoon"/>
+                                        <field name="time_slot_af" attrs="{'invisible': [('afternoon','=', False)],'required': [('afternoon','=', True)]}" domain="[('time_slot','=','afternoon')]"/>
+                                        
+                                    </group>
+                                    <group>
+
+                                        <field name="noon"/>
+                                        <field name="time_slot_n" attrs="{'invisible': [('noon','=', False)],'required': [('noon','=', True)]}" domain="[('time_slot','=','noon')]"/>
+                                        <field name="evening"/>
+                                        <field name="time_slot_e" attrs="{'invisible': [('evening','=', False)],'required': [('evening','=', True)]}" domain="[('time_slot','=','evening')]"/>
+                                 
+                                    </group>
+                                </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_rejoining">
+                <field name="name">Re Joining</field>
+                <field name="res_model">struct.rejoining</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="domain" >[('change', '=',False)]</field>
+                <field name="context">{'readonly_by_pass': True,'default_change':False}</field>
+            </record>
+
+            <menuitem name="Re Joining" id="reg_rejoining" parent="reg_form_rejoin" action="action_rejoining" sequence="1"/>
+
+            <record model="ir.actions.act_window" id="action_change">
+                <field name="name">Change Package</field>
+                <field name="res_model">struct.rejoining</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="domain" >[('change', '=',True)]</field>
+                <field name="context">{'readonly_by_pass': True,'default_change':True}</field>
+            </record>
+
+            <menuitem name="Change Package" id="reg_change" parent="reg_form_rejoin" action="action_change" sequence="2"/>
+
+            <record id="view_tree_rejoining" model="ir.ui.view"> 
+                <field name="name">view_tree_rejoining</field> 
+                <field name="model">struct.rejoining</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="membership_no"/>
+                        <field name="membership_no_ch"/>
+                        <field name="change_package"/>
+                        <field name="new_service"/>
+                        <field name="branch"/>
+                        <field name="stages"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+           <!--  <record id="discontinue_form_view" model="ir.ui.view">
+                <field name="name">discontinue_form_view</field>
+                <field name="model">struct.discontinue</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Dis Continue">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_discontinue">
+                <field name="name">Dis Continue</field>
+                <field name="res_model">struct.discontinue</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record> -->
+
+            <!-- <menuitem name="Dis Continue" id="reg_discontinue" parent="reg_form_reporting" action="action_discontinue" sequence="4"/> -->
+
+            <!-- <record id="view_tree_discontinue" model="ir.ui.view"> 
+                <field name="name">view_tree_discontinue</field> 
+                <field name="model">struct.discontinue</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+ -->
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="continue_form_view" model="ir.ui.view">
+                <field name="name">continue_form_view</field>
+                <field name="model">struct.continue</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Continue">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_continue">
+                <field name="name">Continue</field>
+                <field name="res_model">struct.continue</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Continue" id="reg_continue" parent="reg_form_reporting" action="action_continue" sequence="3"/>
+
+            <record id="view_tree_continue" model="ir.ui.view"> 
+                <field name="name">view_tree_continue</field> 
+                <field name="model">struct.continue</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="paid_form_view" model="ir.ui.view">
+                <field name="name">paid_form_view</field>
+                <field name="model">struct.paid</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Paid">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_paid">
+                <field name="name">Paid</field>
+                <field name="res_model">struct.paid</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Paid" id="reg_paid" parent="reg_form_reporting" action="action_paid" sequence="5"/>
+
+            <record id="view_tree_paid" model="ir.ui.view"> 
+                <field name="name">view_tree_paid</field> 
+                <field name="model">struct.paid</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+           <!--  <record id="unpaid_form_view" model="ir.ui.view">
+                <field name="name">unpaid_form_view</field>
+                <field name="model">struct.unpaid</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Un Paid">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_unpaid">
+                <field name="name">Un Paid</field>
+                <field name="res_model">struct.unpaid</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Un Paid" id="reg_unpaid" parent="reg_form_reporting" action="action_unpaid" sequence="6"/>
+
+            <record id="view_tree_paid" model="ir.ui.view"> 
+                <field name="name">view_tree_paid</field> 
+                <field name="model">struct.unpaid</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record> -->
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="service_form_view" model="ir.ui.view">
+                <field name="name">service_form_view</field>
+                <field name="model">struct.service</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Services">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_service">
+                <field name="name">Services</field>
+                <field name="res_model">struct.service</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Services" id="reg_service" parent="reg_form_config" action="action_service" sequence="1"/>
+
+            <record id="view_tree_service" model="ir.ui.view"> 
+                <field name="name">view_tree_service</field> 
+                <field name="model">struct.service</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+            <record id="package_form_view" model="ir.ui.view">
+                <field name="name">package_form_view</field>
+                <field name="model">reg.package</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="PACKAGES">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>   
+                                    <field name="month"/>   
+                                </group>
+
+                                <group>
+                                    <field name="reg_fee"/>
+                                    <field name="accounts"/>
+                                </group>
+                            </group>
+
+                            <field name="pakg_tree" nolabel='1'>
+                                <tree editable="bottom">                                   
+                                    <field name="service"/>
+                                    <field name="amount" sum="total"/>
+
+                                </tree>
+                            </field>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+
+            <record model="ir.actions.act_window" id="action_packages">
+                <field name="name">PACKAGES</field>
+                <field name="res_model">reg.package</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+
+            <menuitem name="Packages" id="reg_packages" parent="reg_form_config" action="action_packages" sequence="2"/>
+
+
+            <record id="view_tree_package_form" model="ir.ui.view"> 
+                <field name="name">view_tree_package_form</field> 
+                <field name="model">reg.package</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+ 
+                    </tree> 
+                </field> 
+            
+            </record>
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="trainer_form_view" model="ir.ui.view">
+                <field name="name">trainer_form_view</field>
+                <field name="model">struct.trainer</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Personal Tranier">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_trainer">
+                <field name="name">Personal Tranier</field>
+                <field name="res_model">hr.employee</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Personal Tranier" id="reg_trainer" parent="reg_form_config" action="action_trainer" sequence="3"/>
+
+            <record id="view_tree_trainer" model="ir.ui.view"> 
+                <field name="name">view_tree_trainer</field> 
+                <field name="model">struct.trainer</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="slots_form_view" model="ir.ui.view">
+                <field name="name">slots_form_view</field>
+                <field name="model">struct.slots</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Time Slots">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="start_time" />
+                                    <field name="end_time" />
+                                    <field name="time_slot"/>
+                                </group>
+
+                                <group>
+                                    <field name="name"/>
+                                    <field name="training"/>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_slots">
+                <field name="name">Time Slots</field>
+                <field name="res_model">struct.slots</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Time Slots" id="reg_slots" parent="reg_form_config" action="action_slots" sequence="4"/>
+
+            <record id="view_tree_slots" model="ir.ui.view"> 
+                <field name="name">view_tree_slots</field> 
+                <field name="model">struct.slots</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="branches_form_view" model="ir.ui.view">
+                <field name="name">branches_form_view</field>
+                <field name="model">struct.branches</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Branches">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_branches">
+                <field name="name">Branches</field>
+                <field name="res_model">struct.branches</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Branches" id="reg_branches" parent="reg_form_config" action="action_branches" sequence="5"/>
+
+            <record id="view_tree_branches" model="ir.ui.view"> 
+                <field name="name">view_tree_branches</field> 
+                <field name="model">struct.branches</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="types_form_view" model="ir.ui.view">
+                <field name="name">types_form_view</field>
+                <field name="model">struct.visit.type</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Vistor Type">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+
+                                <group>
+                                </group>
+                            </group>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_types">
+                <field name="name">Vistor Type</field>
+                <field name="res_model">struct.visit.type</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Vistor Type" id="reg_types" parent="reg_form_config" action="action_types" sequence="6"/>
+
+            <record id="view_tree_types" model="ir.ui.view"> 
+                <field name="name">view_tree_types</field> 
+                <field name="model">struct.visit.type</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+                <menuitem action="account.action_invoice_tree1" 
+                id="account.menu_action_invoice_tree1" 
+                name="Customer Invoice" 
+                parent="reg_form_invoice" 
+                sequence="1"/>
+
+
+        <record id="action_invoice_tree1" model="ir.actions.act_window">
+            <field name="name">Customer Invoices</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','in',('out_invoice', 'out_refund')),('due_amt','&gt;',0)]</field>
+            <field name="context">{'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a customer invoice.
+              </p><p>
+                Odoo's electronic invoicing allows to ease and fasten the
+                collection of customer payments. Your customer receives the
+                invoice by email and he can pay online and/or import it
+                in his own system.
+              </p><p>
+                The discussions with your customer are automatically displayed at
+                the bottom of each invoice.
+              </p>
+            </field>
+        </record>
+
+         <menuitem name="Un Paid" id="report_child_unpaid" parent="reg_form_reporting" action="action_invoice_tree1" sequence="6"/>
+
+
+            <record id="hr_form_view" model="ir.ui.view"> 
+                <field name="name">hr_form_view</field> 
+                <field name="model">hr.employee</field> 
+                <field name="inherit_id" ref="hr.view_employee_form"/> 
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='parent_id']" position="after">
+                      <field name="massus" />
+                      <field name="trainer" />
+                      <field name="branch" />
+                    </xpath>
+
+                </field> 
+            </record>
+
+
+            <record id="branch_form_view"   model="ir.ui.view"> 
+                <field name="name">branch_form_view</field> 
+                <field name="model">res.users</field> 
+                <field name="inherit_id" ref="base.view_users_form"/> 
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='partner_id']" position="after">
+                      <field name="branch"/>   
+                    </xpath>
+                </field> 
+            </record>
+
+
+            <record id="journal_form_view"   model="ir.ui.view"> 
+                <field name="name">journal_form_view</field> 
+                <field name="model">account.journal</field> 
+                <field name="inherit_id" ref="account.view_account_journal_form"/> 
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='type']" position="after">
+                      <field name="branch" />
+                    </xpath>
+                </field> 
+            </record>
+
+
+            <record id="suppl_form_view"   model="ir.ui.view"> 
+                <field name="name">suppl_form_view</field> 
+                <field name="model">res.partner</field> 
+                <field name="inherit_id" ref="base.view_partner_form"/> 
+                <field name="arch" type="xml">
+
+                        <xpath expr="//field[@name='category_id']" position="after">
+
+                            <field name="walkin" />
+                            
+                        </xpath>
+                </field>
+            </record>
+
+
+            <record id="new_form_view"   model="ir.ui.view"> 
+                <field name="name">new_form_view</field> 
+                <field name="model">account.invoice</field> 
+                <field name="inherit_id" ref="account.invoice_form"/> 
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="after">
+
+                        <!-- <field name="namea"/> -->
+                    </xpath>
+                </field> 
+            </record>
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="service_sale_point" model="ir.ui.view">
+                <field name="name">service_sale_point</field>
+                <field name="model">struct.sale</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Sale">
+                        <header>
+                             <field name="stages" widget="statusbar" statusbar_visible="draft,invoice,validate"/>
+
+                             <button name="validate" type="object" string="Validate" class="oe_highlight" attrs="{'invisible':[('show_mem','=', False)]}"/>
+
+
+                        </header>
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="membership_no" domain="[('stages','=','member')]"/>
+                                    <field name="invoice_link" invisible="1"/>
+                                </group>
+
+                                <group>
+                                    <field name="branch" invisible="1"/>
+                                    <field name="date"/>
+                                    <field name="waking_ref_mem"/>
+                                    <field name="show_mem" invisible="1"/>
+                                    <field name="subtotal" invisible="1"/>
+                                </group>
+                            </group>
+
+                            <field name="sale_id" nolabel='1'>
+                                <tree editable="bottom">
+
+                                    <field name="product"/>                                  
+                                    <field name="qty"/>
+                                    <field name="price"/>
+                                    <field name="subtotal" sum="total"/>
+
+                                </tree>
+                            </field>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_sale_point">
+                <field name="name">Sale</field>
+                <field name="res_model">struct.sale</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="context">{'readonly_by_pass': True}</field>
+            </record>
+
+            <menuitem name="Sale" id="reg_sale_point_menu" parent="reg_sale_point" action="action_sale_point" sequence="1"/>
+
+            <record id="view_tree_sale_point" model="ir.ui.view"> 
+                <field name="name">view_tree_sale_point</field> 
+                <field name="model">struct.sale</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+                        <field name="membership_no"/>
+                        <field name="date"/>
+                        <field name="subtotal"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+            <act_window id="entry_clearance" name="Create Invoice" src_model="struct.sale" res_model="invoice.wizard" key2="client_action_multi" target="new" view_mode="form" multi="False"/>
+
+
+            <record id="entry_clearance_wizard" model="ir.ui.view">
+                <field name="name">Clearance Wizard</field>
+                <field name="model">invoice.wizard</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form>
+                        <group>
+                        <h1>Are You Sure To Create Invoice Of Selected Records</h1>    
+                        </group>
+                        <footer>
+                            <button name="sent_for_clearance" type="object" string="Create Invoice" class = "oe_highlight"  />
+                        </footer>
+                    </form>
+                </field>
+            </record>
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+            <record id="service_purchase_point" model="ir.ui.view">
+                <field name="name">service_purchase_point</field>
+                <field name="model">struct.purchase</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Purchase">
+                        <header>
+                            <field name="stages" widget="statusbar" statusbar_visible="draft,validate"/>
+                        </header>
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="membership_no"/>
+                                </group>
+
+                                <group>
+                                    <field name="date"/>
+                                    <field name="waking_ref_mem"/>
+                                    <field name="subtotal" invisible="1"/>
+                                </group>
+                            </group>
+
+                            <field name="purchase_id" nolabel='1'>
+                                <tree editable="bottom">
+
+                                    <field name="product"/>                                  
+                                    <field name="qty"/>
+                                    <field name="price"/>
+                                    <field name="subtotal" sum="total"/>
+
+                                </tree>
+                            </field>
+
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_purchase_point">
+                <field name="name">Purchase</field>
+                <field name="res_model">struct.purchase</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+            <menuitem name="Purchase" id="reg_purchase_point_menu" parent="reg_sale_point" action="action_purchase_point" sequence="2"/>
+
+            <record id="view_tree_purchase_point" model="ir.ui.view"> 
+                <field name="name">view_tree_purchase_point</field> 
+                <field name="model">struct.purchase</field> 
+                <field name="type">tree</field> 
+                <field name="arch" type="xml"> 
+                    <tree> 
+             
+                        <field name="name"/>
+                        <field name="membership_no"/>
+                        <field name="date"/>
+                        <field name="subtotal"/>
+
+                    </tree> 
+                </field> 
+            
+            </record>
+
+
+        <!--************************[Menu-ENDS]***************************-->
+        <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+
+
+            <record id="product_template_action" model="ir.actions.act_window">
+                <field name="name">Products</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">product.template</field>
+                <field name="view_mode">kanban,tree,form</field>
+                <field name="view_type">form</field>
+                <field name="context">{"search_default_filter_to_sell":1}</field>
+                <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">
+                        Click to define a new product.
+                    </p><p>
+                        You must define a product for everything you sell, whether it's a physical product, a consumable or a service you offer to customers.
+                    </p><p>
+                        The product form contains information to simplify the sale process: price, notes in the quotation, accounting data, procurement methods, etc.
+                    </p>
+                </field>
+            </record>
+
+            <menuitem id="new_menu_stock" name="Stock" parent="reg_sale_point" action="product_template_action" sequence="3"/> 
+
+
+            <record id="stock_form_view"   model="ir.ui.view"> 
+                <field name="name">stock_form_view</field> 
+                <field name="model">product.template</field> 
+                <field name="inherit_id" ref="product.product_template_only_form_view"/> 
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='list_price']" position="after">
+
+                        <field name="total_sale" />
+                        <field name="total_purchase" />
+                        <field name="remaining" />
+                            
+                    </xpath>
+
+                </field> 
+            </record>
+
+            <record id="service_confirmed" model="ir.ui.view">
+                <field name="name">service_confirmed</field>
+                <field name="model">confirm</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Confirmation">
+                            <h2>Are You Sure To Send This Member To Non Member</h2>
+                            <field name="reg_link" invisible="1"/>
+                        <footer>
+                            <button name="confirm" type="object" string="Confirm" class="oe_highlight"/>
+                        </footer>
+                    </form>
+                </field>
+            </record>
+
+
+
+            <!-- <record id="move_form_view"   model="ir.ui.view"> 
+                <field name="name">move_form_view</field> 
+                <field name="model">account.move</field> 
+                <field name="inherit_id" ref="account.view_move_form"/> 
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='ref']" position="after">
+                      <field name="branch" />
+                    </xpath>
+                </field>                  
+            </record> -->
+
+
+
+            <!-- <record id="employee_form_extension" model="ir.ui.view"> 
+            <field name="name">employee_form_extension</field> 
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+ -->
+<!--                 <xpath expr="//field[@name='category_ids']" position="after">
+                    <group name="group_top">
+                        <group name="group_right">
+                            <field name="salaried_person" />
+                            <field name="rate_per_piece" />
+                        </group>
+                        <group name="group_left">
+                            <field name="employee_type" />
+                        </group>
+                    </group>                   
+                </xpath> -->
+
+              <!--   <xpath expr="//field[@name='name']" position="after">
+                    <label for="trainer" class="oe_edit_only" string="Tranier"/>
+                    <field name="trainer" />
+                </xpath>
+
+            </field>
+
+        </record> -->
+
+
+    </data>
+</openerp>

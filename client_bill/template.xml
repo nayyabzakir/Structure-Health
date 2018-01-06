@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="report_for_module_client_bill" 
+            model="account.invoice"
+            name="client_bill.module_report"
+            file="client_bill.module_report"
+            report_type="qweb-html"
+            string="Client Bill"/> 
+    </data>
+</openerp>
